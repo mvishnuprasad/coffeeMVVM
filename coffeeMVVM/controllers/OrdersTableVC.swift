@@ -34,7 +34,7 @@ class OrdersTableVC : UITableViewController , AddCoffeeOrderDelegate{
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let vm = orderListVM.ordersVM[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTableVIewCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.orderTableViewCell.rawValue)
         cell?.textLabel?.text = vm.type
         cell?.detailTextLabel?.text = vm.size
         return cell!

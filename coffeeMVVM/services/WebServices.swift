@@ -6,21 +6,6 @@
 //
 
 import Foundation
-enum NetWorkError : Error{
-    case decoding
-    case domain
-    case url
-}
-
-struct Resource<T : Codable> {
-    let url : URL
-    var httpMethod : httpMethods = .get
-    var body : Data? = nil
-    init(url: URL ) {
-        self.url = url
-        
-    }
-}
 
 class WebService{
     func load<T> (

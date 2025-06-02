@@ -43,20 +43,20 @@ extension Orders {
     }
     static var all : Resource<[Orders]> = {
         guard let url = URL(string: AppConstants.url.rawValue) else {
-            fatalError("Error")
+            fatalError(ErrorOutput.parseError.rawValue)
         }
         return Resource<[Orders]>(url: url)
     }()
     static func create(vm: AddOrderVM) -> Resource<Orders?>{
         guard let order = try? Orders(vm) else{
-            fatalError("Error")
+            fatalError(ErrorOutput.structError.rawValue)
         }
         
         guard let url = URL(string: AppConstants.url.rawValue) else {
-            fatalError("Error")
+            fatalError(ErrorOutput.parseError.rawValue)
         }
         guard let data = try? JSONEncoder().encode(order) else{
-            fatalError("Error")
+            fatalError(ErrorOutput.encodeError.rawValue)
         }
         var resource  = Resource<Orders?>(url: url)
         resource.httpMethod = httpMethods.post

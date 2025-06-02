@@ -38,7 +38,7 @@ class AddOrderVC : UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AddOrderCell", for : indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.addOrderCell.rawValue, for : indexPath)
         cell.textLabel?.text = self.vm.types[indexPath.row]
         return cell
     }
@@ -63,7 +63,7 @@ class AddOrderVC : UIViewController, UITableViewDelegate, UITableViewDataSource 
         let email = self.emailTextField.text
         let size = self.coffeSizeSegmentedControl.titleForSegment(at: self.coffeSizeSegmentedControl.selectedSegmentIndex)
         guard let selectedIndexPath = self.tableView.indexPathForSelectedRow else{
-            fatalError("Error selecting")
+            fatalError(ErrorOutput.typeSelection.rawValue)
         }
         
         self.vm.name = name
@@ -79,7 +79,7 @@ class AddOrderVC : UIViewController, UITableViewDelegate, UITableViewDataSource 
                         delegate.addCoffeeVCDidSave(order: order, controller: self)
                     }
                 }else{
-                    fatalError("no order")
+                    fatalError(ErrorOutput.noOrder.rawValue)
                 }
               
             case .failure(let err):
