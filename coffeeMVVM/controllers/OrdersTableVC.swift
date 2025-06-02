@@ -7,7 +7,19 @@
 
 import Foundation
 import UIKit
-class OrdersTableVC : UITableViewController {
+class OrdersTableVC : UITableViewController , AddCoffeeOrderDelegate{
+    func addCOffeeVCDidSave(order: Orders, controller: UIViewController) {
+        controller.dismiss(animated: true)
+        let ordersVM = OrderViewModel(order: order)
+        self.orderListVM.ordersVM.append(ordersVM)
+        self.tableView.insertRows(at: [IndexPath.init(row: self.orderListVM.ordersVM.count-1, section: 0)], with: .automatic)
+    }
+    
+    func addCOffeeVCDidclose(controller: UIViewController) {
+        controller.dismiss(animated: true)
+        
+    }
+    
     var orderListVM = OrdersListVM()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,5 +47,12 @@ class OrdersTableVC : UITableViewController {
         cell?.textLabel?.text = vm.type
         cell?.detailTextLabel?.text = vm.size
         return cell!
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let nav = segue.destination as? UINavigationController,
+              let addCoffeeOrderVC = nav.viewControllers.first as? AddOrderVC else{
+            fatalError()
+        }
+        addCoffeeOrderVC.delegate = self
     }
 }

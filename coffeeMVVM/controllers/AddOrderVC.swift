@@ -7,6 +7,11 @@
 
 import Foundation
 import UIKit
+
+protocol AddCoffeeOrderDelegate {
+    func addCOffeeVCDidSave(order: Orders, controller: UIViewController)
+    func addCOffeeVCDidclose(controller: UIViewController)
+}
 class AddOrderVC : UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView : UITableView!
@@ -14,7 +19,7 @@ class AddOrderVC : UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var emailTextField : UITextField!
     private var coffeSizeSegmentedControl : UISegmentedControl!
     private var vm = AddOrderVM()
-    
+    var delegate :AddCoffeeOrderDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +50,14 @@ class AddOrderVC : UIViewController, UITableViewDelegate, UITableViewDataSource 
 
     }
     
+    @IBAction func close() {
+        if  let delegate = self.delegate{
+            DispatchQueue.main.async{
+                delegate.addCOffeeVCDidclose(controller: self)
+            }
+        }
+    }
+    
     @IBAction func save(){
         let name = self.nameTextField.text
         let email = self.emailTextField.text
@@ -61,12 +74,14 @@ class AddOrderVC : UIViewController, UITableViewDelegate, UITableViewDataSource 
         WebService().load(resourse: Orders.create(vm: self.vm)){result in
             switch result {
             case .success(let orders):
-//                self?.orderListVM.ordersVM = orders.map { order in
-//                  
-//                    OrderViewModel(order: order)
-//                }
-               
-//                self?.tableView.reloadData()
+                if let order = orders,let delegate = self.delegate{
+                    DispatchQueue.main.async{
+                        delegate.addCOffeeVCDidSave(order: order, controller: self)
+                    }
+                }else{
+                    fatalError("no order")
+                }
+              
             case .failure(let err):
                 print(err)
             }

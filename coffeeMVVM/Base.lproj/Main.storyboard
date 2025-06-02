@@ -96,7 +96,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fDD-7e-mtF">
-                                <rect key="frame" x="96" y="494" width="200" height="34"/>
+                                <rect key="frame" x="96.666666666666686" y="494" width="200" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="aMG-k0-RfL"/>
                                     <constraint firstAttribute="width" constant="200" id="mZI-W9-sfF"/>
@@ -119,7 +119,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add new order" id="ngi-mU-3X5">
-                        <barButtonItem key="leftBarButtonItem" title="Close" id="9P2-Gj-IFq"/>
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="9P2-Gj-IFq">
+                            <connections>
+                                <action selector="close" destination="uP9-eO-Chr" id="uM6-7f-iZn"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="owg-wD-RIK">
                             <connections>
                                 <action selector="save" destination="uP9-eO-Chr" id="Bte-3O-azf"/>
