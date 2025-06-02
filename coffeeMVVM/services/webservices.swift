@@ -11,10 +11,7 @@ enum NetWorkError : Error{
     case domain
     case url
 }
-enum httpMethods: String{
-    case get = "GET"
-    case post = "POST"
-}
+
 struct Resource<T : Codable> {
     let url : URL
     var httpMethod : httpMethods = .get

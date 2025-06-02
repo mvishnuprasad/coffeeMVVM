@@ -29,7 +29,7 @@ struct Orders : Codable{
 
 
 extension Orders {
-    
+    /// Convert the single order type from AddOrderVM to a type of Orders
     init?(_ vm : AddOrderVM) throws {
         guard let name = vm.name,
               let email = vm.email,
@@ -42,7 +42,7 @@ extension Orders {
         self.size = selectedSize
     }
     static var all : Resource<[Orders]> = {
-        guard let url = URL(string: "https://warp-wiry-rugby.glitch.me/orders") else {
+        guard let url = URL(string: AppConstants.url.rawValue) else {
             fatalError("Error")
         }
         return Resource<[Orders]>(url: url)
@@ -52,7 +52,7 @@ extension Orders {
             fatalError("Error")
         }
         
-        guard let url = URL(string: "https://warp-wiry-rugby.glitch.me/orders") else {
+        guard let url = URL(string: AppConstants.url.rawValue) else {
             fatalError("Error")
         }
         guard let data = try? JSONEncoder().encode(order) else{

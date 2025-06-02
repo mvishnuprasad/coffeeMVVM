@@ -24,11 +24,12 @@ struct OrderViewModel{
 }
 
 class OrdersListVM{
+    ///array of all orders
     var ordersVM : [OrderViewModel]
     init() {
         self.ordersVM = [OrderViewModel]()
     }
-    func orderVM (at index: Int)->OrderViewModel{
-        return self.ordersVM[index]
-    }
+//    func orderVM (at index: Int)->OrderViewModel{
+//        return self.ordersVM[index]
+//    }
 }

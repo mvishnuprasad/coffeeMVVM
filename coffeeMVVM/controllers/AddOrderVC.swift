@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol AddCoffeeOrderDelegate {
-    func addCOffeeVCDidSave(order: Orders, controller: UIViewController)
+    func addCoffeeVCDidSave(order: Orders, controller: UIViewController)
     func addCOffeeVCDidclose(controller: UIViewController)
 }
 class AddOrderVC : UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -62,21 +62,21 @@ class AddOrderVC : UIViewController, UITableViewDelegate, UITableViewDataSource 
         let name = self.nameTextField.text
         let email = self.emailTextField.text
         let size = self.coffeSizeSegmentedControl.titleForSegment(at: self.coffeSizeSegmentedControl.selectedSegmentIndex)
-        guard let indexPath = self.tableView.indexPathForSelectedRow else{
+        guard let selectedIndexPath = self.tableView.indexPathForSelectedRow else{
             fatalError("Error selecting")
         }
         
         self.vm.name = name
         self.vm.email = email
         self.vm.selectedSize = size
-        self.vm.selectedType = self.vm.types[indexPath.row]
-        
+        self.vm.selectedType = self.vm.types[selectedIndexPath.row]
+        /// Send post request with selected order body 
         WebService().load(resourse: Orders.create(vm: self.vm)){result in
             switch result {
             case .success(let orders):
                 if let order = orders,let delegate = self.delegate{
                     DispatchQueue.main.async{
-                        delegate.addCOffeeVCDidSave(order: order, controller: self)
+                        delegate.addCoffeeVCDidSave(order: order, controller: self)
                     }
                 }else{
                     fatalError("no order")

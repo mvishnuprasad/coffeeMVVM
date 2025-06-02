@@ -8,19 +8,8 @@
 import Foundation
 import UIKit
 class OrdersTableVC : UITableViewController , AddCoffeeOrderDelegate{
-    func addCOffeeVCDidSave(order: Orders, controller: UIViewController) {
-        controller.dismiss(animated: true)
-        let ordersVM = OrderViewModel(order: order)
-        self.orderListVM.ordersVM.append(ordersVM)
-        self.tableView.insertRows(at: [IndexPath.init(row: self.orderListVM.ordersVM.count-1, section: 0)], with: .automatic)
-    }
-    
-    func addCOffeeVCDidclose(controller: UIViewController) {
-        controller.dismiss(animated: true)
-        
-    }
-    
     var orderListVM = OrdersListVM()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         populateOrder()
@@ -29,6 +18,8 @@ class OrdersTableVC : UITableViewController , AddCoffeeOrderDelegate{
         WebService().load(resourse: Orders.all){[weak self] result in
             switch result {
             case .success(let orders):
+                /// Transform array of Orders models into array of OrderViewModel objects
+                /// Each Orders model gets wrapped in a OrderViewModel for presentation
                 self?.orderListVM.ordersVM = orders.map { order in
                     OrderViewModel(order: order)
                 }
@@ -42,7 +33,7 @@ class OrdersTableVC : UITableViewController , AddCoffeeOrderDelegate{
         return self.orderListVM.ordersVM.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let vm = orderListVM.orderVM(at: indexPath.row)
+        let vm = orderListVM.ordersVM[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderTableVIewCell")
         cell?.textLabel?.text = vm.type
         cell?.detailTextLabel?.text = vm.size
@@ -54,5 +45,16 @@ class OrdersTableVC : UITableViewController , AddCoffeeOrderDelegate{
             fatalError()
         }
         addCoffeeOrderVC.delegate = self
+    }
+    func addCoffeeVCDidSave(order: Orders, controller: UIViewController) {
+        controller.dismiss(animated: true)
+        let ordersVM = OrderViewModel(order: order)
+        self.orderListVM.ordersVM.append(ordersVM)
+        self.tableView.reloadData()
+        
+    }
+    
+    func addCOffeeVCDidclose(controller: UIViewController) {
+        controller.dismiss(animated: true)
     }
 }
